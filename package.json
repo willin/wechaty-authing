@@ -5,9 +5,7 @@
   "author": "Lucsun <suntianxiang@authing.cn>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "start": "tsc && export WECHATY_LOG=verbose && node dist/wechaty.js",
-    "start2": "tsc && node dist/wechaty-2.js"
+    "build": "tsc"
   },
   "dependencies": {
     "authing-js-sdk": "^4.22.12",

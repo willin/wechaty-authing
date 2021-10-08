@@ -2,7 +2,7 @@
 
 ## 简介
 
-wechatyAuthing 主要用于 Wechaty 开发者将 Wechaty 的 Contact、Room 同步到 Authing 进行统一的管理。同步完成之后可以在 Authing 中进行更详细的配置与查看。
+**wechaty-authing** 主要用于 Wechaty 开发者将 Wechaty 的 Contact、Room 同步到 Authing 进行统一的管理。同步完成之后可以在 Authing 中进行更详细的配置与查看。
 
 Wechaty - Authing 概念定义对应关系表：
 

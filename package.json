@@ -3,6 +3,12 @@
   "version": "0.0.3",
   "main": "./dist/index.js",
   "author": "Lucsun <suntianxiang@authing.cn>",
+  "description": "wechaty-authing 主要用于 Wechaty 开发者将 Wechaty 的 Contact、Room 同步到 Authing 进行统一的管理。",
+  "homepage": "https://github.com/Authing",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Authing/Wechaty-Authing.git"
+  },
   "license": "MIT",
   "scripts": {
     "build": "tsc"

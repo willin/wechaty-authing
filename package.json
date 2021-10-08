@@ -1,6 +1,6 @@
 {
   "name": "wechaty-authing",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./dist/index.js",
   "author": "Lucsun <suntianxiang@authing.cn>",
   "license": "MIT",

@@ -1,8 +1,8 @@
-# Wecahty-Authing
+# Wechaty-Authing
 
 ## 简介
 
-wechatyAuthing 主要用于 Wechaty 开发者将 Wechaty 的 Contat、Room 同步到 Authing 进行统一的管理。同步完成之后可以在 Authing 中进行更详细的配置与查看。
+wechatyAuthing 主要用于 Wechaty 开发者将 Wechaty 的 Contact、Room 同步到 Authing 进行统一的管理。同步完成之后可以在 Authing 中进行更详细的配置与查看。
 
 Wechaty - Authing 概念定义对应关系表：
 
@@ -16,7 +16,7 @@ Wechaty - Authing 概念定义对应关系表：
 
 ## Authing
 
-使用 WechatyAuthing 之前需要用户先在 Authing 注册一个用户池。并且获取到对应的 userpoolId、secret。
+使用 **wechaty-authing** 之前需要用户先在 Authing 注册一个用户池。并且获取到对应的 userpoolId、secret。
 
 > [Authing 的注册地址](https://console.authing.cn/register)，具体的使用详情可以参考 [使用文档](https://docs.authing.cn/v2/guides/basics/console/)
 
@@ -24,7 +24,7 @@ Wechaty - Authing 概念定义对应关系表：
 
 ### Use Wechaty Plugin
 
-安装 WebchatyAuthing 插件
+安装 **wechaty-authing** 插件
 
 ```SH
 npm i wechaty-authing
@@ -36,7 +36,7 @@ yarn add wechaty-authing
 
 ```JS
 
-import { WechatyAuthing } from 'WechatyAuthing'
+import { WechatyAuthing } from 'wechaty-authing'
 import Wechaty from 'Wechaty'
 
 const bot = new Wechaty()
@@ -52,7 +52,7 @@ bot.use(authingClient.plugin())
 
 ## Auto Sync
 
-实现自动化同步，只要用户使用了 **WechatyAuthing**，并在调用 plugin 的时候传入对应的参数（具体可以参考 PluginOptions）。用户可以在正常使用 Wechaty 的服务的时，就会将其用户信同步到 Authing。
+实现自动化同步，只要用户使用了 **wechaty-authing**，并在调用 plugin 的时候传入对应的参数（具体可以参考 PluginOptions）。用户可以在正常使用 Wechaty 的服务的时，就会将其用户信同步到 Authing。
 
 ### PluginOptions
 
@@ -104,11 +104,11 @@ bot.use(authingClient.plugin())
 
 ### Sync Complete
 
-同步完成后 Contact 相关的数据可以在，Authing Console -> UserList 中进行查看
+同步完成后 Contact 相关的数据可以在，**Authing 控制台 -> 用户管理 -> 用户列表** 中进行查看
 
 ![Authing Console](https://files.authing.co/authing-blog/wechaty-authing-2.png)
 
-Room 相关的数据可以在，Authing Console -> GroupList 中进行查看
+Room 相关的数据可以在，**Authing 控制台 -> 用户管理 -> 分组管理** 中进行查看
 
 ![Authing Console](https://files.authing.co/authing-blog/wechaty-authing-3.png)
 
@@ -130,7 +130,7 @@ Room 相关的数据可以在，Authing Console -> GroupList 中进行查看
 
 ```JS
 import { Contact } from 'wecahty'
-import { User } from 'wecahtyAuthing'
+import { User } from 'wechaty-authing'
 
 type ActionSyncContact = (contact: Contact) => Promise<User>
 
@@ -150,7 +150,7 @@ console.log(user)
 
 ```JS
 import { Contact } from 'wecahty'
-import { User } from 'wecahtyAuthing'
+import { User } from 'wechaty-authing'
 
 // addContact / createContact
 type ActionAddContact = (contact: Contact) => Promise<User>
@@ -171,7 +171,7 @@ type ActionRemoveContact = (contact: Contact) => Promise<boolean>
 
 ```JS
 import { Contact } from 'wecahty'
-import { User } from 'wecahtyAuthing'
+import { User } from 'wechaty-authing'
 
 let user: User
 
@@ -195,7 +195,7 @@ await authingClint.removeContact(contact)
 
 ```JS
 import { Contact } from 'wecahty'
-import { User } from 'wecahtyAuthing'
+import { User } from 'wechaty-authing'
 
 type ActionFindContactListRoom = (contact: Contact) => Promise<Array<Group>>
 ```
@@ -218,7 +218,7 @@ console.log(groupList)
 
 ```JS
 import { Room } from 'wecahty'
-import { Group } from 'wecahtyAuthing'
+import { Group } from 'wechaty-authing'
 
 type ActionSyncRoom = (room: Room) => Promise<Group>
 ```
@@ -241,7 +241,7 @@ console.log(group)
 
 ```JS
 import { Room, Contact } from 'wecahty'
-import { Group } from 'wecahtyAuthing'
+import { Group } from 'wechaty-authing'
 
 type ActionRoomSyncContacts = (room: Room, contactList: Array<Contact>) => Promise<boolean>
 ```
@@ -264,7 +264,7 @@ await authingClint.roomSyncContacts(room, contactList)
 
 ```JS
 import { Room } from 'wecahty'
-import { Group } from 'wecahtyAuthing'
+import { Group } from 'wechaty-authing'
 
 type ActionRooomGetContacts = (room: Room) => Promise<Array<User>>
 ```
@@ -277,7 +277,7 @@ type ActionRooomGetContacts = (room: Room) => Promise<Array<User>>
 
 ```JS
 import { Contact, Room } from 'wecahty'
-import { Group } from 'wecahtyAuthing'
+import { Group } from 'wechaty-authing'
 
 type ActionRoomAddContacts = (room: Room, contactList: Array<Contact>) => Promise<boolean>
 type ActionRoomAddContact = (room: Room, contact: Contact) => Promise<boolean>

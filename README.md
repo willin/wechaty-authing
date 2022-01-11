@@ -35,7 +35,7 @@ yarn add wechaty-authing
 ```JS
 
 import { WechatyAuthing } from 'wechaty-authing'
-import Wechaty from 'Wechaty'
+import Wechaty from 'wechaty'
 
 const bot = new Wechaty()
 
@@ -62,7 +62,7 @@ bot.use(authingClient.plugin())
 
 ### AutoSyncEventEnum
 
-|Key|Valu|Description|
+|Key|Value|Description|
 |---|---|---|
 |Message|message|Message 事件|
 

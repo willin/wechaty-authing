@@ -1,1 +1,1 @@
-export * from './lib/wechatyAuthing'
+export * from './lib/wechatyAuthing';

@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { ManagementClient, User } from 'authing-js-sdk';
+import qs from 'query-string';
+import { Contact, Message, Room, Wechaty } from 'wechaty';
+import { UsersManagementClient } from 'authing-js-sdk/build/main/lib/management/UsersManagementClient';
+import { GroupsManagementClient } from 'authing-js-sdk/build/main/lib/management/GroupsManagementClient';
+import axios from 'axios';
 import {
   ActionAddContact,
   ActionAddRoom,
@@ -12,7 +19,7 @@ import {
   ActionRoomRemoveContact,
   ActionRoomRemoveContacts,
   ActionRoomSyncContacts,
-  ActionRooomGetContacts,
+  ActionRoomGetContacts,
   ActionSyncContact,
   ActionSyncRoom,
   ActionUpdateContact,
@@ -26,14 +33,8 @@ import {
   CallbackConfig,
   Group,
   PluginOptions,
-  WechatyAuthingOptions,
+  WechatyAuthingOptions
 } from '../type';
-import { ManagementClient, User } from 'authing-js-sdk';
-import qs from 'query-string';
-import { Contact, Message, Room, Wechaty } from 'wechaty';
-import { UsersManagementClient } from 'authing-js-sdk/build/main/lib/management/UsersManagementClient';
-import { GroupsManagementClient } from 'authing-js-sdk/build/main/lib/management/GroupsManagementClient';
-import axios from 'axios';
 
 export class WechatyAuthing {
   /**
@@ -62,7 +63,7 @@ export class WechatyAuthing {
 
   private autoSyncRoomConfig: AutoSyncRoomConfig = {
     roomList: [],
-    eventList: [],
+    eventList: []
   };
 
   private autoSyncEventConfig: AutoSyncEventConfig = [];
@@ -109,23 +110,17 @@ export class WechatyAuthing {
     return bot;
   };
 
-  getManagementClient = () => {
-    return this.managementClient;
-  };
+  getManagementClient = () => this.managementClient;
 
   syncContact: ActionSyncContact = async (contact: Contact) => {
-    let user: User;
+    const user: User = await this.getContact(contact);
 
-    user = await this.getContact(contact);
-
-    if (user) return await this.updateContact(contact);
-    else return await this.addContact(contact);
+    if (user) return this.updateContact(contact);
+    return this.addContact(contact);
   };
 
   removeContact: ActionRemoveContact = async (contact: Contact) => {
-    let user: User;
-
-    user = await this.getContact(contact);
+    const user: User = await this.getContact(contact);
 
     if (!user) return false;
 
@@ -135,67 +130,56 @@ export class WechatyAuthing {
   };
 
   updateContact: ActionUpdateContact = async (contact: Contact) => {
-    let user: User;
-
-    user = await this.getContact(contact);
+    const user: User = await this.getContact(contact);
 
     if (!(await this.getContact(contact)))
       throw new Error('this contact does not exist in Authing');
 
-    // @ts-ignore
     const { avatar } = contact.payload;
-    return await this.usersClient.update(user.id, {
+    return this.usersClient.update(user.id, {
       username: contact.weixin(),
       nickname: contact.name(),
-      phone: avatar,
+      phone: avatar
     });
   };
 
   addContact: ActionAddContact = async (contact: Contact) => {
-    let user: User;
-
-    user = await this.getContact(contact);
+    let user: User = await this.getContact(contact);
 
     if (user) return user;
 
-    // @ts-ignore
     const { avatar } = contact.payload;
     const userinfo = {
       nickname: contact.name(),
       photo: avatar,
-      username: contact.weixin(),
+      username: contact.weixin()
     };
 
     user = await this.usersClient.create(userinfo, {
       identity: {
         userIdInIdp: contact.id,
-        provider: this.provider,
-      },
+        provider: this.provider
+      }
     });
 
     return user;
   };
 
-  createContact: ActionCreateContact = async (contact) => {
-    return await this.addContact(contact);
-  };
+  createContact: ActionCreateContact = this.addContact;
 
   getContact: ActionGetContact = async (contact: Contact) => {
     const user = await this.usersClient.find({
       identity: {
         userIdInIdp: contact.id,
-        provider: this.provider,
-      },
+        provider: this.provider
+      }
     });
 
     return user;
   };
 
-  getRoom: ActionGetRoom = async (room: Room) => {
-    const group = await this.groupsClient.detail(room.id);
-
-    return group;
-  };
+  getRoom: ActionGetRoom = async (room: Room) =>
+    this.groupsClient.detail(room.id);
 
   addRoom: ActionAddRoom = async (room: Room) => {
     let group: Group;
@@ -209,9 +193,7 @@ export class WechatyAuthing {
     return group;
   };
 
-  createRoom: ActionCreateRoom = async (room) => {
-    return await this.addRoom(room);
-  };
+  createRoom: ActionCreateRoom = this.addRoom;
 
   updateRoom: ActionUpdateRoom = async (room: Room) => {
     let group: Group;
@@ -221,16 +203,14 @@ export class WechatyAuthing {
     if (!group) throw new Error('this room does not exist in Authing');
 
     group = await this.groupsClient.update(group.code!, {
-      name: await room.topic(),
+      name: await room.topic()
     });
 
     return group;
   };
 
   removeRoom: ActionRemoveRoom = async (room: Room) => {
-    let group: Group;
-
-    group = await this.getRoom(room);
+    const group: Group = await this.getRoom(room);
 
     if (!group) return false;
 
@@ -240,12 +220,12 @@ export class WechatyAuthing {
   };
 
   syncRoom: ActionSyncRoom = async (room) => {
-    let group: Group;
+    const group: Group = await this.getRoom(room);
 
-    group = await this.getRoom(room);
-
-    if (group) return await this.updateRoom(room);
-    else return await this.addRoom(room);
+    if (group) {
+      return this.updateRoom(room);
+    }
+    return this.addRoom(room);
   };
 
   roomAddContacts: ActionRoomAddContacts = async (room, contactList) => {
@@ -263,9 +243,8 @@ export class WechatyAuthing {
     return true;
   };
 
-  roomAddContact: ActionRoomAddContact = async (room, contact) => {
-    return await this.roomAddContacts(room, [contact]);
-  };
+  roomAddContact: ActionRoomAddContact = async (room, contact) =>
+    await this.roomAddContacts(room, [contact]);
 
   roomRemoveContacts: ActionRoomRemoveContacts = async (room, contactList) => {
     const group = await this.syncRoom(room);
@@ -282,24 +261,22 @@ export class WechatyAuthing {
     return true;
   };
 
-  roomRemoveContact: ActionRoomRemoveContact = async (room, contact) => {
-    return await this.roomRemoveContacts(room, [contact]);
-  };
+  roomRemoveContact: ActionRoomRemoveContact = (room, contact) =>
+    this.roomRemoveContacts(room, [contact]);
 
-  rooomGetContacts: ActionRooomGetContacts = async (room) => {
+  rooomGetContacts: ActionRoomGetContacts = async (room) => {
     const group = await this.syncRoom(room);
 
     const userList = await this.groupsClient.listUsers(group.code!, {
       page: 1,
-      limit: -1,
+      limit: -1
     });
 
     return userList.list as User[];
   };
 
   roomSyncContacts: ActionRoomSyncContacts = async (room, contactList) => {
-    let group: Group;
-    group = await this.getRoom(room);
+    const group: Group = await this.getRoom(room);
 
     if (group) {
       await this.groupsClient.delete(group.code!);
@@ -312,7 +289,7 @@ export class WechatyAuthing {
 
   private initAutoSyncEvent = async (bot: Wechaty) => {
     const eventMapping: Record<AutoSyncEventEnum, AutoSyncEvent> = {
-      [AutoSyncEventEnum.Message]: this.onMessage,
+      [AutoSyncEventEnum.Message]: this.onMessage
     };
 
     const onEventList = this.autoSyncEventConfig.map(
@@ -335,7 +312,7 @@ export class WechatyAuthing {
       [AutoSyncRoomEventEnum.INVITE]: this.onInvite,
       [AutoSyncRoomEventEnum.JOIN]: this.onJoin,
       [AutoSyncRoomEventEnum.LEAVE]: this.onLeave,
-      [AutoSyncRoomEventEnum.TOPIC]: this.onTopic,
+      [AutoSyncRoomEventEnum.TOPIC]: this.onTopic
     };
 
     const onEventList = eventList.map((event) => eventMapping[event]);
@@ -406,12 +383,12 @@ export class WechatyAuthing {
       url,
       {
         actionType,
-        content,
+        content
       },
       {
         headers: {
-          authorization: token,
-        },
+          authorization: token || ''
+        }
       }
     );
   };
@@ -426,7 +403,7 @@ export class WechatyAuthing {
       contactId: id,
       clientId: this.options.userPoolId,
       secret: this.options.secret,
-      host: this.options.host,
+      host: this.options.host
     };
 
     return this.getMiniProgramConfig(urlQuery);
@@ -445,7 +422,7 @@ export class WechatyAuthing {
         'http://wx.qlogo.cn/mmhead/Q3auHgzwzM5kqJF20rB7kiasoEQDTKFs61ryIEddycKWS8MGTQsgJEg/96',
       thumbUrl:
         '308186020100047a30780201000204545ea08702034c4c6d0204b615b87b02046141afd704536175706170706d73675f613636613234623439363935653663625f313633313639343830363734345f32343531385f32323035313966342d303837332d346632302d613339332d3539633331666231323833610204011400030201000405004c4c6d00',
-      thumbKey: '4004151918757dc35fb26c169e267ee3',
+      thumbKey: '4004151918757dc35fb26c169e267ee3'
     };
 
     // return {

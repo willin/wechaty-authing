@@ -4,11 +4,11 @@ wechaty-authing 主要用于 Wechaty 开发者将 Wechaty 的 Contact、Room 同
 
 Wechaty - Authing 概念定义对应关系表：
 
-| Wechaty | Authing | 备注 |
-| -----| ---- | ---- |
-| Bot | Userpool | 租户 |
-| Room | Group | 分组 |
-| Contact | User | 用户 |
+| Wechaty | Authing  | 备注 |
+| ------- | -------- | ---- |
+| Bot     | Userpool | 租户 |
+| Room    | Group    | 分组 |
+| Contact | User     | 用户 |
 
 ## 快速开始
 
@@ -54,40 +54,40 @@ bot.use(authingClient.plugin())
 
 ### PluginOptions
 
-| Field Name | Type | Description | Example |
-|---|---|---|---|
-|autoSyncEventConfig|Array\<AutoSyncEventEnum\>|自动同步事件配置|[ AutoSyncEventEnum.Message ]|
-|autoSyncRoomConfig|AutoSyncRoomConfig|Room 下的自动同步事件配置||
-|autoSyncCallback|CallbackConfig|回调链接配置||
+| Field Name          | Type                       | Description               | Example                       |
+| ------------------- | -------------------------- | ------------------------- | ----------------------------- |
+| autoSyncEventConfig | Array\<AutoSyncEventEnum\> | 自动同步事件配置          | [ AutoSyncEventEnum.Message ] |
+| autoSyncRoomConfig  | AutoSyncRoomConfig         | Room 下的自动同步事件配置 |                               |
+| autoSyncCallback    | CallbackConfig             | 回调链接配置              |                               |
 
 ### AutoSyncEventEnum
 
-|Key|Value|Description|
-|---|---|---|
-|Message|message|Message 事件|
+| Key     | Value   | Description  |
+| ------- | ------- | ------------ |
+| Message | message | Message 事件 |
 
 ### AutoSyncRoomConfig
 
-| Field Name | Type | Description |
-|---|---|---|
-|roomList|Array\<string\>|需要监听事件的 Room Topic|
-|eventList|Array\<AutoSyncRoomEventEnum\>|Room 下发生同步的事件列表|
+| Field Name | Type                           | Description               |
+| ---------- | ------------------------------ | ------------------------- |
+| roomList   | Array\<string\>                | 需要监听事件的 Room Topic |
+| eventList  | Array\<AutoSyncRoomEventEnum\> | Room 下发生同步的事件列表 |
 
 ### AutoSyncRoomEventEnum
 
-|Key|Value|Description|
-|---|---|---|
-|JOIN|join|Wecahty Room 中的 join 事件|
-|INVITE|invite|Wecahty Room 中的 invite 事件|
-|TOPIC|topic|Wecahty Room 中的 topic 事件|
-|LEAVE|leave|Wecahty Room 中的 leave 事件|
+| Key    | Value  | Description                   |
+| ------ | ------ | ----------------------------- |
+| JOIN   | join   | Wecahty Room 中的 join 事件   |
+| INVITE | invite | Wecahty Room 中的 invite 事件 |
+| TOPIC  | topic  | Wecahty Room 中的 topic 事件  |
+| LEAVE  | leave  | Wecahty Room 中的 leave 事件  |
 
 ### CallbackConfig
 
-|Field Name|Class|Description|
-|---|---|---|
-|url|string|回调链接的 URL|
-|token|string|设置好密钥（值由开发者自定）后，Authing 将在每个请求中（HTTP Header：authorization）附带此密钥，你可以通过验证此密钥来避免一些非法操作|
+| Field Name | Class  | Description                                                                                                                            |
+| ---------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| url        | string | 回调链接的 URL                                                                                                                         |
+| token      | string | 设置好密钥（值由开发者自定）后，Authing 将在每个请求中（HTTP Header：authorization）附带此密钥，你可以通过验证此密钥来避免一些非法操作 |
 
 ### Sync Callback
 
@@ -95,10 +95,10 @@ bot.use(authingClient.plugin())
 
 #### 请求体
 
-|Field Name|Type|Description|
-|---|---|---|
-|actionType|string|回调的行为标识，由三部分构成：回调事件:具体的事件:返回 Content 的实体类型比如：message 同步成功时，actionType 的内容是：event:message:contcat 在 Room Join 事同步成功时，actionType 的内容是：roomEvent:join:room|
-|content|any|返回的具体实体数据，实体的类型由 actionType 中的第三部分进行判断，可以参考 下表 Content 的具体实体字段|
+| Field Name | Type   | Description                                                                                                                                                                                                       |
+| ---------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| actionType | string | 回调的行为标识，由三部分构成：回调事件:具体的事件:返回 Content 的实体类型比如：message 同步成功时，actionType 的内容是：event:message:contcat 在 Room Join 事同步成功时，actionType 的内容是：roomEvent:join:room |
+| content    | any    | 返回的具体实体数据，实体的类型由 actionType 中的第三部分进行判断，可以参考 下表 Content 的具体实体字段                                                                                                            |
 
 ### Sync Complete
 

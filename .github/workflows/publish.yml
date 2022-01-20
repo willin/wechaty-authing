@@ -39,8 +39,9 @@ jobs:
         run: |-
           yarn build
           npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
-          npm version minor
+          npm version $VERSION_OPTS
           npm publish $PUBLISH_OPTS
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          VERSION_OPTS: ${{ github.ref_name == 'main' && 'minor' || 'patch' }}
           PUBLISH_OPTS: ${{ github.ref_name == 'main' && '' || '--tag=next' }}

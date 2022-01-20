@@ -25,5 +25,7 @@ jobs:
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          AUTHING_USER_POOL_ID: ${{ secrets.AUTHING_USER_POOL_ID }}
+          AUTHING_USER_POOL_SECRET: ${{ secrets.AUTHING_USER_POOL_SECRET }}
         with:
           coverageCommand: yarn test

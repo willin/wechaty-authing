@@ -153,23 +153,6 @@ export class WechatyAuthing {
 
   /** ********* AS DOWNSTREAM ************* */
   /**
-   * Get all Authing users
-   * @returns {Promise<User[]>}
-   */
-  async getAuthingUsers(): Promise<User[]> {
-    let page = 1;
-    const limit = 200;
-    const users: User[] = [];
-    const { totalCount, list } = await this.#client.users.list(page, limit);
-    users.push(...list);
-    for (page = 2; page * limit < totalCount; page += 1) {
-      const { list: result } = await this.#client.users.list(page, limit);
-      users.push(...result);
-    }
-    return users;
-  }
-
-  /**
    * Check if user with the phone number exists in Authing
    * 检查手机号是否注册为 Authing 用户
    * @param {string} phone

@@ -54,11 +54,6 @@ describe('Wechaty Authing Real World Testing', () => {
     expect(failInvalidId).toBeFalsy();
   });
 
-  it('getAuthingUsers', async () => {
-    const result = await client.getAuthingUsers();
-    expect(result.length).toBeGreaterThan(0);
-  });
-
   it('checkPhone', async () => {
     const result = await client.checkPhone('13212341234');
     expect(result).toBeTruthy();

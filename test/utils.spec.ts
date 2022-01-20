@@ -1,10 +1,4 @@
-import {
-  getAuthingGender,
-  getContactId,
-  contactDiff,
-  filterContactUsers
-} from '../src';
-import { userWithExternalId, normalContact } from './_utils';
+import { getAuthingGender, getContactId, arrayDiff } from '../src';
 
 describe('utils', () => {
   it('getAuthingGender', () => {
@@ -24,20 +18,7 @@ describe('utils', () => {
     ).toBe('test2');
   });
 
-  it('contactDiff', () => {
-    expect(contactDiff([1, 2, 3], [2, 3, 4])).toEqual([1]);
-  });
-
-  it('filterContactUsers', () => {
-    expect(filterContactUsers([normalContact('test-id')], [])).toEqual([]);
-    expect(filterContactUsers([normalContact('test-id')], [], false)).toEqual([
-      normalContact('test-id')
-    ]);
-    expect(
-      filterContactUsers(
-        [normalContact('test-id')],
-        [userWithExternalId('test-id')]
-      )
-    ).toEqual([normalContact('test-id')]);
+  it('arrayDiff', () => {
+    expect(arrayDiff([1, 2, 3], [2, 3, 4])).toEqual([1]);
   });
 });

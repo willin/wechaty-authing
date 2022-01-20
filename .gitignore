@@ -2,7 +2,7 @@
 demo/
 node_modules/
 dist/
-test
+.parcel-cache/
 .idea/*
 
 coverage

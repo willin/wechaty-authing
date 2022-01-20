@@ -1,3 +1,4 @@
+import type { User } from 'authing-js-sdk';
 import type { Contact } from 'wechaty';
 import { WechatyAuthing } from '../src';
 
@@ -29,3 +30,8 @@ export const normalContact = (id: string, payload = false): Contact =>
         }
       : {})
   } as Contact);
+
+export const userWithExternalId = (id: string): User =>
+  ({
+    externalId: id
+  } as User);

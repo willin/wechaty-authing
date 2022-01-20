@@ -12,11 +12,26 @@ import { getContactId, getAuthingGender } from './utils';
 export class WechatyAuthing {
   #client: ManagementClient;
 
+  #name = '';
+
   /* eslint-disable no-await-in-loop */
   constructor(config: WechatyAuthingConfig) {
     this.#client = new ManagementClient(config);
   }
 
+  /**
+   * Get Authing User pool name
+   * @returns {Promise<string>}
+   */
+  async getPoolName(): Promise<string> {
+    if (!this.#name) {
+      const { name } = await this.#client.userpool.detail();
+      this.#name = name;
+    }
+    return this.#name;
+  }
+
+  /** ********* AS UPSTREAM ************* */
   /**
    * Batch check users exists from Authing
    * 检查是否注册为 Authing 用户
@@ -135,6 +150,59 @@ export class WechatyAuthing {
     }
     return false;
   }
+
+  /** ********* AS DOWNSTREAM ************* */
+  /**
+   * Get all Authing users
+   * @returns {Promise<User[]>}
+   */
+  async getAuthingUsers(): Promise<User[]> {
+    let page = 1;
+    const limit = 200;
+    const users: User[] = [];
+    const { totalCount, list } = await this.#client.users.list(page, limit);
+    users.push(...list);
+    for (page = 2; page * limit < totalCount; page += 1) {
+      const { list: result } = await this.#client.users.list(page, limit);
+      users.push(...result);
+    }
+    return users;
+  }
+
+  /**
+   * Check if user with the phone number exists in Authing
+   * 检查手机号是否注册为 Authing 用户
+   * @param {string} phone
+   * @returns {Promise<boolean>}
+   */
+  checkPhone(phone: string): Promise<boolean> {
+    return this.#client.users.exists({ phone });
+  }
+
+  async bindPhoneContact<T = Contact>(
+    phone: string,
+    contact: T
+  ): Promise<boolean> {
+    const contactId = getContactId(contact);
+    if (contactId) {
+      try {
+        const { username, id } = await this.#client.users.find({ phone });
+        await this.#client.users.update(id, {
+          ...(username!.startsWith('user_')
+            ? {
+                username: contactId
+              }
+            : {}),
+          externalId: contactId
+        });
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
+  /** ********* PRIVATE ************* */
 
   /**
    * Create Authing user

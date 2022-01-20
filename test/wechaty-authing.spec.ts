@@ -8,6 +8,12 @@ describe('Wechaty Authing Real World Testing', () => {
     ]);
   });
 
+  it('getPoolName', async () => {
+    const result = await client.getPoolName();
+    expect(result).not.toBe('');
+    expect(result).toBe(await client.getPoolName());
+  });
+
   it('filterAuthingUsers', async () => {
     const { registered, unregistered, fail } = await client.filterAuthingUsers([
       searchContact('test1'),
@@ -48,6 +54,26 @@ describe('Wechaty Authing Real World Testing', () => {
     expect(failInvalidId).toBeFalsy();
   });
 
+  it('getAuthingUsers', async () => {
+    const result = await client.getAuthingUsers();
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('checkPhone', async () => {
+    const result = await client.checkPhone('13212341234');
+    expect(result).toBeTruthy();
+    const result2 = await client.checkPhone('13311112233');
+    expect(result2).toBeFalsy();
+  });
+
+  it('bindPhoneContact', async () => {
+    expect(await client.bindPhoneContact('13212348888', {})).toBeFalsy();
+    expect(
+      await client.bindPhoneContact('13212341234', normalContact('test-id1'))
+    ).toBeTruthy();
+  });
+
+  // To be placed after all
   it('deleteAuthingUsers', async () => {
     const { success, fail } = await client.deleteAuthingUsers([
       normalContact('test-id1'),

@@ -1,6 +1,12 @@
 name: Testing
 on:
   push:
+    branches:
+      - main
+      - next
+      - beta
+      - feat/*
+      - fix/*
     paths-ignore:
       - '*.md'
       - .vscode/**

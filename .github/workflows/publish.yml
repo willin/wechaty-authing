@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - '*.md'
       - .vscode/**
+      - .github/**
       - LICENSE
   workflow_dispatch:
 

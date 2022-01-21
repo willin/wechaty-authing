@@ -19,6 +19,10 @@ export class WechatyAuthing {
     this.#client = new ManagementClient(config);
   }
 
+  /**
+   * Get Authing SDK client
+   * 获取 Authing SDK 实例
+   */
   protected get client(): ManagementClient {
     return this.#client;
   }
@@ -81,7 +85,7 @@ export class WechatyAuthing {
     const fail: T[] = [];
     for (let i = 0; i < contacts.length; i += 1) {
       const contact = contacts[i];
-      const result = await this.#createAuthingUser(contact);
+      const result = await this.createAuthingUser(contact);
       if (result) {
         success.push(contact);
       } else {
@@ -120,8 +124,8 @@ export class WechatyAuthing {
   }
 
   /**
-   * Bind phone number to Authing user
-   * 绑定手机号码到 Authing 用户
+   * Create or update a authing user with Wechaty contact and phone
+   * 绑定 Contact 和手机号码到 Authing 用户（或创建一个用户）
    * @param {Contact} contact
    * @param {string} phone
    * @returns {Promise<boolean>}
@@ -145,7 +149,7 @@ export class WechatyAuthing {
             phone
           });
         } else {
-          await this.#createAuthingUser(contact);
+          await this.createAuthingUser(contact);
         }
         return true;
       } catch (e) {
@@ -166,6 +170,13 @@ export class WechatyAuthing {
     return this.#client.users.exists({ phone });
   }
 
+  /**
+   * Bind Wechaty contact to a Authing user by phone number
+   * 将 Wechaty Contact 绑定到 Authing 手机号的用户
+   * @param {string} phone
+   * @param {Contact} contact
+   * @returns {Promise<boolean>}
+   */
   async bindPhoneContact<T = Contact>(
     phone: string,
     contact: T
@@ -189,7 +200,7 @@ export class WechatyAuthing {
     }
     return false;
   }
-  /** ********* PRIVATE ************* */
+  /** ********* PROTECTED ************* */
 
   /**
    * Create Authing user
@@ -197,7 +208,7 @@ export class WechatyAuthing {
    * @param {Contact} contact
    * @returns {User | null}
    */
-  #createAuthingUser<T = Contact>(contact: T): Promise<User | null> {
+  protected createAuthingUser<T = Contact>(contact: T): Promise<User | null> {
     const contactId = getContactId(contact);
     if (contactId) {
       // eslint-disable-next-line

@@ -19,6 +19,10 @@ export class WechatyAuthing {
     this.#client = new ManagementClient(config);
   }
 
+  protected get client(): ManagementClient {
+    return this.#client;
+  }
+
   /**
    * Get Authing User pool name
    * @returns {Promise<string>}

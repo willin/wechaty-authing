@@ -1,4 +1,5 @@
-import type { ManagementClientOptions } from 'authing-js-sdk';
+import type { ManagementClientOptions, ManagementClient } from 'authing-js-sdk';
+
 import type { Contact } from 'wechaty';
 
 export type WechatyAuthingConfig = ManagementClientOptions;
@@ -13,3 +14,5 @@ export type ContactsFilterResult<T = Contact> = {
   unregistered: T[];
   fail: T[];
 };
+
+export type { ManagementClient };

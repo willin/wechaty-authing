@@ -8,3 +8,4 @@ test/
 coverage/
 .nyc_output/
 *.log
+.npmrc

@@ -1,0 +1,11 @@
+demo/
+.vscode/
+.DS_Store
+test/
+.parcel-cache/
+.husky/
+
+coverage/
+.nyc_output/
+*.log
+.npmrc

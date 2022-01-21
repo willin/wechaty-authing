@@ -1,7 +1,10 @@
 {
   "name": "wechaty-authing",
-  "version": "0.0.4",
-  "main": "./dist/index.js",
+  "version": "1.0.3",
+  "source": "src/index.ts",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
+  "types": "dist/types.d.ts",
   "author": "Lucsun <suntianxiang@authing.cn>",
   "description": "wechaty-authing 主要用于 Wechaty 开发者将 Wechaty 的 Contact、Room 同步到 Authing 进行统一的管理。",
   "homepage": "https://github.com/Authing",
@@ -9,18 +12,47 @@
     "type": "git",
     "url": "git+https://github.com/Authing/Wechaty-Authing.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc"
+    "watch": "parcel watch",
+    "build": "parcel build",
+    "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}'",
+    "test": "jest --coverage",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "dependencies": {
-    "authing-js-sdk": "^4.22.12",
-    "axios": "^0.21.4",
-    "query-string": "^7.0.1",
-    "wechaty": "^0.69.33"
+    "authing-js-sdk": "^4.23.11"
   },
   "devDependencies": {
-    "@types/node": "^14.14.7",
-    "typescript": "^4.0.5"
+    "@commitlint/cli": "^16.0.2",
+    "@commitlint/config-conventional": "^16.0.0",
+    "@parcel/packager-ts": "^2.1.1",
+    "@parcel/transformer-typescript-types": "^2.1.1",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "@willin/eslint-config": "^0.0.6",
+    "conventional-changelog-cli": "^2.2.2",
+    "eslint": "^8.6.0",
+    "eslint-plugin-import": "^2.25.4",
+    "husky": "^7.0.4",
+    "jest": "^27.4.7",
+    "lint-staged": "^12.1.7",
+    "parcel": "^2.1.1",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4",
+    "wechaty": "^1.10.4"
+  },
+  "lint-staged": {
+    "*.[jt]s": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

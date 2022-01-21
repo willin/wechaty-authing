@@ -2,10 +2,10 @@
 
 [![npm](https://img.shields.io/npm/v/wechaty-authing.svg)](https://npmjs.org/package/wechaty-authing) [![npm](https://img.shields.io/npm/dt/wechaty-authing.svg)](https://npmjs.org/package/wechaty-authing) [![Maintainability](https://api.codeclimate.com/v1/badges/3e8c3f891b4a3adcb80d/maintainability)](https://codeclimate.com/github/Authing/wechaty-authing/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/3e8c3f891b4a3adcb80d/test_coverage)](https://codeclimate.com/github/Authing/wechaty-authing/test_coverage)
 
-[简体中文](./README.zh.md)
+[English](./README.md)
 
 - [wechaty-authing](#wechaty-authing)
-  - [Usage](#usage)
+  - [使用](#使用)
     - [Constructor](#constructor)
     - [protected client](#protected-client)
     - [protected createAuthingUser(contact: Contact): Promise<User | null>;](#protected-createauthingusercontact-contact-promiseuser--null)
@@ -22,17 +22,17 @@
     - [arrayDiff: <T = Contact>(arr: T[], diff: T[]) => T[]](#arraydiff-t--contactarr-t-diff-t--t)
   - [LICENSE](#license)
 
-## Usage
+## 使用
 
-POC Example: <https://github.com/Authing/wechaty-authing-poc>
+POC 示例项目: https://github.com/Authing/wechaty-authing-poc
 
 ### Constructor
 
-Params: `WechatyAuthingConfig | ManagementClientOptions`
+参数： `WechatyAuthingConfig | ManagementClientOptions`
 
-Ref docs: https://docs.authing.cn/v2/reference/sdk-for-node/
+参考： https://docs.authing.cn/v2/reference/sdk-for-node/
 
-Example:
+示例：
 
 ```ts
 import { WechatyAuthing, type WechatyAuthingConfig } from 'wechaty-authing';
@@ -47,21 +47,21 @@ const authing = WechatyAuthing(config);
 
 ### protected client
 
-Returns: `ManagementClient`
+返回： `ManagementClient`
 
-Which is an Authing SDK client
+即 Authing SDK 实例。
 
 ### protected createAuthingUser(contact: Contact): Promise<User | null>;
 
-Create a Authing user
+创建 Authing 用户
 
-Params: `Contact`
+参数： `Contact`
 
-Returns: `User | null`
+返回值： `User | null`
 
 ### getPoolName(): Promise<string>;
 
-Get Authing User pool name
+获取用户池名称
 
 ```ts
 const authing = WechatyAuthing(config);
@@ -70,11 +70,11 @@ await authing.getPoolName(); // '我的企业'
 
 ### filterAuthingUsers(contacts: Contact[]): Promise<ContactsFilterResult<Contact>>;
 
-Batch check users exists from Authing
+检查用户是否注册为 Authing 用户。
 
-Params: `Contact[]`
+参数： `Contact[]`
 
-Returns:
+返回值：
 
 ```ts
 type ContactsFilterResult = {
@@ -86,11 +86,11 @@ type ContactsFilterResult = {
 
 ### createAuthingUsers(contacts: Contact[]): Promise<ContactsOperationResult<Contact>>;
 
-Batch create users to Authing
+向 Authing 用户池中批量创建用户
 
-Params: `Contact[]`
+参数： `Contact[]`
 
-Returns:
+返回值：
 
 ```ts
 type ContactsOperationResult = {
@@ -101,45 +101,45 @@ type ContactsOperationResult = {
 
 ### deleteAuthingUsers(contacts: Contact[]): Promise<ContactsOperationResult<Contact>>;
 
-Batch delete users from Authing
+从 Authing 用户池中批量删除 Wechaty 用户
 
-Params and Return values are same with the create function.
+参数与返回值同创建用户
 
 ### bindAuthingPhone(contact: Contact, phone: string): Promise<boolean>;
 
-Create or update a authing user with Wechaty contact and phone
+绑定 Contact 和手机号码到 Authing 用户（或创建一个用户）
 
-Params:
+参数：
 
 - `Contact`
 - `string`
 
-Returns: `boolean`
+返回值： `boolean`
 
 ### checkPhone(phone: string): Promise<boolean>;
 
-Check if user with the phone number exists in Authing
+检查手机号是否在用户池中存在
 
-Params: `string`
+参数： `string`
 
-Returns: `boolean`
+返回值： `boolean`
 
 ### bindPhoneContact(phone: string, contact: Contact): Promise<boolean>;
 
-Bind Wechaty contact to a Authing user by phone number
+将 Wechaty Contact 绑定到 Authing 手机号的用户
 
-Params:
+参数：
 
 - `string`
 - `Contact`
 
-Returns: `boolean`
+返回值： `boolean`
 
 ## Utils
 
 ### getAuthingGender: (gender: any) => string
 
-Convert Wechaty ContactGender to Authing Gender format
+将 Wechaty 性别转换成 Authing 性别字段
 
 ```ts
 import { getAuthingGender } from 'wechaty-authing';
@@ -149,17 +149,17 @@ getAuthingGender(contact.gender()); // ContactGender.Unknown --> U
 
 ### getContactId: (contact: any) => string
 
-Get Valid Contact ID
+获取有效的 Contact ID
 
 ```ts
 import { getContactId } from 'wechaty-authing';
 
-getContactId(contact); // weixin or empty string
+getContactId(contact); // 返回 微信号，或空字符串
 ```
 
 ### arrayDiff: <T = Contact>(arr: T[], diff: T[]) => T[]
 
-Array Set Difference
+数组差集
 
 ```ts
 import { arrayDiff } from 'wechaty-authing';

@@ -1,0 +1,47 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+      - .vscode/**
+      - LICENSE
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Prepare
+        run: |-
+          sudo timedatectl set-timezone Asia/Shanghai
+          yarn
+      - name: Test
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          AUTHING_USER_POOL_ID: ${{ secrets.AUTHING_USER_POOL_ID }}
+          AUTHING_USER_POOL_SECRET: ${{ secrets.AUTHING_USER_POOL_SECRET }}
+        with:
+          coverageCommand: yarn test
+      - name: Build
+        run: |-
+          yarn build
+          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+          npm version $VERSION_OPTS
+          npm publish $PUBLISH_OPTS
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          VERSION_OPTS: ${{ github.ref_name == 'main' && 'minor' || 'patch' }}
+          PUBLISH_OPTS: ${{ github.ref_name == 'main' && '' || '--tag=next' }}

@@ -16,6 +16,8 @@
     - [bindAuthingPhone(contact: Contact, phone: string): Promise<boolean>;](#bindauthingphonecontact-contact-phone-string-promiseboolean)
     - [checkPhone(phone: string): Promise<boolean>;](#checkphonephone-string-promiseboolean)
     - [bindPhoneContact(phone: string, contact: Contact): Promise<boolean>;](#bindphonecontactphone-string-contact-contact-promiseboolean)
+    - [checkEmail(email: string): Promise<boolean>;](#checkemailemail-string-promiseboolean)
+    - [bindEmailContact(email: string, contact: Contact): Promise<boolean>;](#bindemailcontactemail-string-contact-contact-promiseboolean)
   - [Utils](#utils)
     - [getAuthingGender: (gender: any) => string](#getauthinggender-gender-any--string)
     - [getContactId: (contact: any) => string](#getcontactid-contact-any--string)
@@ -127,6 +129,25 @@ Returns: `boolean`
 ### bindPhoneContact(phone: string, contact: Contact): Promise<boolean>;
 
 Bind Wechaty contact to a Authing user by phone number
+
+Params:
+
+- `string`
+- `Contact`
+
+Returns: `boolean`
+
+### checkEmail(email: string): Promise<boolean>;
+
+Check if user with the email exists in Authing
+
+Params: `string`
+
+Returns: `boolean`
+
+### bindEmailContact(email: string, contact: Contact): Promise<boolean>;
+
+Bind Wechaty contact to a Authing user by email
 
 Params:
 

@@ -171,6 +171,16 @@ export class WechatyAuthing {
   }
 
   /**
+   * Check if user with the email exists in Authing
+   * 检查邮箱是否注册为 Authing 用户
+   * @param {string} email
+   * @returns {Promise<boolean>}
+   */
+  checkEmail(email: string): Promise<boolean> {
+    return this.#client.users.exists({ email });
+  }
+
+  /**
    * Bind Wechaty contact to a Authing user by phone number
    * 将 Wechaty Contact 绑定到 Authing 手机号的用户
    * @param {string} phone
@@ -185,6 +195,37 @@ export class WechatyAuthing {
     if (contactId) {
       try {
         const { username, id } = await this.#client.users.find({ phone });
+        await this.#client.users.update(id, {
+          ...(username!.startsWith('user_')
+            ? {
+                username: contactId
+              }
+            : {}),
+          externalId: contactId
+        });
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Bind Wechaty contact to a Authing user by Email
+   * 将 Wechaty Contact 绑定到 Authing 邮箱的用户
+   * @param {string} phone
+   * @param {Contact} contact
+   * @returns {Promise<boolean>}
+   */
+  async bindEmailContact<T = Contact>(
+    email: string,
+    contact: T
+  ): Promise<boolean> {
+    const contactId = getContactId(contact);
+    if (contactId) {
+      try {
+        const { username, id } = await this.#client.users.find({ email });
         await this.#client.users.update(id, {
           ...(username!.startsWith('user_')
             ? {

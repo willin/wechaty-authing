@@ -68,6 +68,13 @@ describe('Wechaty Authing Real World Testing', () => {
     ).toBeTruthy();
   });
 
+  it('bindEmailContact', async () => {
+    expect(await client.bindEmailContact('demo1@qq.com', {})).toBeFalsy();
+    expect(
+      await client.bindEmailContact('demo1@qq.com', normalContact('test-id1'))
+    ).toBeFalsy();
+  });
+
   // To be placed after all
   it('deleteAuthingUsers', async () => {
     const { success, fail } = await client.deleteAuthingUsers([

@@ -16,6 +16,8 @@
     - [bindAuthingPhone(contact: Contact, phone: string): Promise<boolean>;](#bindauthingphonecontact-contact-phone-string-promiseboolean)
     - [checkPhone(phone: string): Promise<boolean>;](#checkphonephone-string-promiseboolean)
     - [bindPhoneContact(phone: string, contact: Contact): Promise<boolean>;](#bindphonecontactphone-string-contact-contact-promiseboolean)
+    - [checkEmail(email: string): Promise<boolean>;](#checkemailemail-string-promiseboolean)
+    - [bindEmailContact(email: string, contact: Contact): Promise<boolean>;](#bindemailcontactemail-string-contact-contact-promiseboolean)
   - [Utils](#utils)
     - [getAuthingGender: (gender: any) => string](#getauthinggender-gender-any--string)
     - [getContactId: (contact: any) => string](#getcontactid-contact-any--string)
@@ -127,6 +129,25 @@ type ContactsOperationResult = {
 ### bindPhoneContact(phone: string, contact: Contact): Promise<boolean>;
 
 将 Wechaty Contact 绑定到 Authing 手机号的用户
+
+参数：
+
+- `string`
+- `Contact`
+
+返回值： `boolean`
+
+### checkEmail(email: string): Promise<boolean>;
+
+检查邮箱是否在用户池中存在
+
+参数： `string`
+
+返回值： `boolean`
+
+### bindEmailContact(email: string, contact: Contact): Promise<boolean>;
+
+将 Wechaty Contact 绑定到 Authing 邮箱的用户
 
 参数：
 

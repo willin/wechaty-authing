@@ -196,7 +196,7 @@ export class WechatyAuthing {
       try {
         const { username, id } = await this.#client.users.find({ phone });
         await this.#client.users.update(id, {
-          ...(username!.startsWith('user_')
+          ...(username && username.startsWith('user_')
             ? {
                 username: contactId
               }

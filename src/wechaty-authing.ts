@@ -23,7 +23,7 @@ export class WechatyAuthing {
    * Get Authing SDK client
    * 获取 Authing SDK 实例
    */
-  protected get client(): ManagementClient {
+  get client(): ManagementClient {
     return this.#client;
   }
 
